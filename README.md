@@ -1,20 +1,22 @@
 # goebaykleinanzeigen
 
-goebaykleinanzeigen is an experimental library for scraping eBay Kleinanzeigen written in go.
-
-eBay Kleinanzeigen should not be confused with the normal eBay.
-
-There is a runnable example in the cmd directory.
-
-This library is written with the intend to scrape cars listings but all categories should work.
-
 ## _Disclaimer_
 
-This project is in early development and \*_will_ be buggy.
+This project is in early development and **will** be buggy.
 
 I am not associated with eBay Kleinanzeigen or eBay in any way.
 
-Use at your own risk.
+Use this code at your own risk.
+
+## Introduction
+
+goebaykleinanzeigen is an experimental library for scraping eBay Kleinanzeigens data written in go.
+
+eBay Kleinanzeigen should not be confused with the main site eBay.
+
+There is a runnable basic example for scraping cars in the cmd directory.
+
+This library is written with the intend to scrape car listings but all categories should work and will be added in the future.
 
 ## Why webscraping?
 
@@ -22,7 +24,7 @@ eBay Kleinanzeigen offers a private API which is only available for their offici
 If you need to use this library you are probably **not** a official partner.
 
 Sadly this makes accessing eBay Kleinanzeigens data a ~~little~~ lot harder. Especially since we are limited to about 40 req/minute.
-And of course since we need to parse the HTML is pretty error prone.
+And of course parsing HTML is pretty error prone.
 
 ## eBay Kleinanzeigen URLs
 
