@@ -39,11 +39,11 @@ The basic URL for this may look like this: <https://www.ebay-kleinanzeigen.de/l3
 - Where the 3331 in l3331 is some kind of internal id? for Berlin.
 - Where the 50 in r50 is the distance from the center in kilometers.
 
-This is pretty boring and generic so lets a specific category to our URL: <https://www.ebay-kleinanzeigen.de/l3331r50c216>
+This is pretty boring and generic so lets specify a specific category in our URL: <https://www.ebay-kleinanzeigen.de/l3331r50c216>
 
 - We added the parameter c216 to our URL! In this case c is probably a prefix for categoryID and 216 is the ID for cars!
 
-So no we only search for cars but this is still a little bit to generic if you ask me. We don't want to spend too much money on our new cars so let's add a specific
+So now we only search for cars but this is still a little bit to generic if you ask me. We don't want to spend too much money on our new car so let's add a specific
 price range to our query: <https://www.ebay-kleinanzeigen.de/preis:1000:4000/l3331r50c216>
 
 - Now we only search for cars in the specific price range from 1000 euro to 4000 euro (preis is the german word for price).
