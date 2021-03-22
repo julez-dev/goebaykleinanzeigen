@@ -28,7 +28,7 @@ func parseListHTML(body io.Reader) (*AdListResponse, error) {
 
 		if id, ok := s.Attr("data-adid"); ok {
 			listItem.ID = id
-			listItem.Link = BaseURL + "/s-anzeige/" + listItem.ID
+			listItem.Link = baseURL + "/s-anzeige/" + listItem.ID
 		}
 
 		listItem.Title = s.Find(".ellipsis").First().Text()
@@ -49,52 +49,6 @@ func parseListHTML(body io.Reader) (*AdListResponse, error) {
 	})
 
 	return response, nil
-}
-
-func parsePrice(text string) (int, bool, error) {
-
-	splits := strings.Split(text, " ")
-
-	if len(splits) > 0 {
-		splits[0] = strings.ReplaceAll(splits[0], ".", "")
-
-		if splits[0] == "VB" {
-			return 0, true, nil
-		}
-
-		if len(splits) == 2 || len(splits) == 3 {
-			price, err := strconv.ParseInt(splits[0], 10, 32)
-
-			if err != nil {
-				return 0, false, err
-			}
-
-			return int(price), false, nil
-		}
-
-	}
-
-	return 0, false, nil
-}
-
-func parseLocation(text string) (string, string) {
-	text = strings.TrimSpace(text)
-	splits := strings.SplitN(text, " ", 2)
-
-	if len(splits) == 2 {
-		// the location may also include the distance
-		// if a radius is provided in the parameters.
-		// In this case cut location until the newline
-		newLineAt := strings.Index(splits[1], "\n")
-
-		if newLineAt >= 0 {
-			return splits[0], splits[1][:newLineAt]
-		}
-
-		return splits[0], splits[1]
-	}
-
-	return "", ""
 }
 
 func parseAdHTML(body io.Reader) (*AdItem, error) {
@@ -129,7 +83,7 @@ func parseAdHTML(body io.Reader) (*AdItem, error) {
 
 	ad.ListedSince = date
 	ad.ID = id
-	ad.Link = BaseURL + "/s-anzeige/" + id
+	ad.Link = baseURL + "/s-anzeige/" + id
 
 	detailsSelector := doc.Find(".addetailslist--detail")
 	ad.Details = make(map[string]string, len(detailsSelector.Nodes))
@@ -146,6 +100,7 @@ func parseAdHTML(body io.Reader) (*AdItem, error) {
 		ad.Extras = append(ad.Extras, s.Text())
 	})
 
+	// TODO: make this a little more performant and safe by selecting an outer class first and then use the new selector
 	seller.Name = strings.TrimSpace(doc.Find(".text-bold.text-bigger.text-force-linebreak").First().Text())
 	seller.Rating = parseRating(strings.TrimSpace(doc.Find(".userbadges-vip.userbadges-profile-rating").First().Text()))
 	seller.Friendliness = strings.TrimSpace(doc.Find(".userbadges-vip.userbadges-profile-friendliness").First().Text())
@@ -161,6 +116,52 @@ func parseAdHTML(body io.Reader) (*AdItem, error) {
 	ad.Description = strings.TrimSpace(doc.Find("#viewad-description-text").First().Text())
 
 	return ad, nil
+}
+
+func parsePrice(text string) (int, bool, error) {
+
+	splits := strings.Split(text, " ")
+
+	if len(splits) > 0 {
+		splits[0] = strings.ReplaceAll(splits[0], ".", "")
+
+		if splits[0] == "VB" {
+			return 0, true, nil
+		}
+
+		if len(splits) == 2 || len(splits) == 3 {
+			price, err := strconv.ParseInt(splits[0], 10, 32)
+
+			if err != nil {
+				return 0, false, err
+			}
+
+			return int(price), len(splits) == 3, nil
+		}
+
+	}
+
+	return 0, false, nil
+}
+
+func parseLocation(text string) (string, string) {
+	text = strings.TrimSpace(text)
+	splits := strings.SplitN(text, " ", 2)
+
+	if len(splits) == 2 {
+		// the location may also include the distance
+		// if a radius is provided in the parameters.
+		// In this case cut location until the newline
+		newLineAt := strings.Index(splits[1], "\n")
+
+		if newLineAt >= 0 {
+			return splits[0], splits[1][:newLineAt]
+		}
+
+		return splits[0], splits[1]
+	}
+
+	return "", ""
 }
 
 func parseExtraInfo(text string) (time.Time, string) {

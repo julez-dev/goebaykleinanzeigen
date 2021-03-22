@@ -1,5 +1,6 @@
 package goebay
 
+// ParamName represents a parameter name for a category specific parameter
 type ParamName string
 
 const (

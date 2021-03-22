@@ -14,7 +14,7 @@ import (
 func main() {
 	params := &goebay.SearchParam{
 		Category:  goebay.Cars,
-		CountryID: "3331",
+		Location:  "3331",
 		Radius:    goebay.FiftyKM,
 		PriceFrom: 1000,
 		PriceTo:   4000,

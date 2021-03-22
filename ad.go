@@ -7,10 +7,13 @@ import (
 	"time"
 )
 
+// AdRepo represents an AdRepo
+// The AdRepo resolves a single ad
 type AdRepo struct {
 	client *http.Client
 }
 
+// AdItem represents a single AdItem
 type AdItem struct {
 	ID              string
 	ListedSince     time.Time
@@ -26,6 +29,7 @@ type AdItem struct {
 	Seller          *Seller
 }
 
+// Seller represents the seller of an aditem
 type Seller struct {
 	Name         string
 	ActiveSince  time.Time
@@ -33,6 +37,7 @@ type Seller struct {
 	Rating       string
 }
 
+// NewAdRepo creates a new AdRepo, if client is nil, one will be created
 func NewAdRepo(client *http.Client) *AdRepo {
 	ar := &AdRepo{}
 
@@ -45,6 +50,7 @@ func NewAdRepo(client *http.Client) *AdRepo {
 	return ar
 }
 
+// Fetch fetches a single AdItem
 func (ar *AdRepo) Fetch(ctx context.Context, url string) (*AdItem, error) {
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 

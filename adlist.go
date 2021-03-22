@@ -6,14 +6,18 @@ import (
 	"net/http"
 )
 
+// AdListRepo represents an AdListRepo
+// The AdListRepo resolves a list of ads
 type AdListRepo struct {
 	client *http.Client
 }
 
+// AdListResponse represents the response from the Fetch() call
 type AdListResponse struct {
 	Items []*AdListItem
 }
 
+// AdListItem a single item in the returned list
 type AdListItem struct {
 	ID              string
 	Title           string
@@ -24,6 +28,7 @@ type AdListItem struct {
 	Link            string
 }
 
+// NewAdListRepo creates a new AdRepo, if client is nil, one will be created
 func NewAdListRepo(client *http.Client) *AdListRepo {
 	al := &AdListRepo{}
 
@@ -36,8 +41,9 @@ func NewAdListRepo(client *http.Client) *AdListRepo {
 	return al
 }
 
+// Fetch fetches a list of ads based on the provided param
 func (al *AdListRepo) Fetch(ctx context.Context, param *SearchParam) (*AdListResponse, error) {
-	url := param.ToURL()
+	url := param.toURL()
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 
 	if err != nil {

@@ -5,16 +5,27 @@ import (
 	"strings"
 )
 
+// Category represents a specific category id
 type Category string
+
+// Provider represents a specific provider (private or commercial seller)
 type Provider string
+
+// OfferType represents the offer type
 type OfferType string
-type CountryID string
+
+// LocationID represents a specifc location
+// retrived from https://www.ebay-kleinanzeigen.de/s-ort-empfehlungen.json?query=Berlin for example
+type LocationID string
+
+// Radius represents the distance from the center of the location
 type Radius string
 
+// SpecificParameter represent specific parameters for each category
 type SpecificParameter map[ParamName]string
 
 const (
-	BaseURL string = "https://www.ebay-kleinanzeigen.de"
+	baseURL string = "https://www.ebay-kleinanzeigen.de"
 )
 
 const (
@@ -28,7 +39,7 @@ const (
 
 const (
 	Offer  OfferType = "angebote"
-	Search OfferType = "gesuche"
+	Wanted OfferType = "gesuche"
 )
 
 const (
@@ -43,16 +54,20 @@ const (
 	TwoHundredKM      Radius = "200"
 )
 
+// SearchParam holds all parameters for a search
 type SearchParam struct {
 	Category          Category
 	Provider          Provider
 	OfferType         OfferType
-	CountryID         CountryID
+	Location          LocationID
 	Radius            Radius
 	SpecificParameter SpecificParameter
-	Page              int
-	PriceFrom         int
-	PriceTo           int
+	// Which page should be scraped
+	Page int
+	// Price from in euro
+	PriceFrom int
+	// Price to in euro
+	PriceTo int
 }
 
 func (sp *SearchParam) fmtCategory() string {
@@ -65,7 +80,11 @@ func (sp *SearchParam) fmtCategory() string {
 
 func (sp *SearchParam) fmtPrice() string {
 	if sp.PriceTo > 0 {
-		return "/preis:" + strconv.Itoa(sp.PriceFrom) + ":" + strconv.Itoa(sp.PriceTo)
+		if sp.PriceFrom > 0 {
+			return "/preis:" + strconv.Itoa(sp.PriceFrom) + ":" + strconv.Itoa(sp.PriceTo)
+		}
+
+		return "/preis::" + strconv.Itoa(sp.PriceTo)
 	}
 
 	if sp.PriceFrom > 0 {
@@ -103,9 +122,9 @@ func (sp *SearchParam) fmtOfferType() string {
 	return ""
 }
 
-func (sp *SearchParam) fmtCountyID() string {
-	if sp.CountryID != "" {
-		return "l" + string(sp.CountryID)
+func (sp *SearchParam) fmtLocationID() string {
+	if sp.Location != "" {
+		return "l" + string(sp.Location)
 	}
 
 	return ""
@@ -131,7 +150,7 @@ func (sp *SearchParam) fmtSpecificParameter() string {
 	return sb.String()
 }
 
-func (sp *SearchParam) ToURL() string {
+func (sp *SearchParam) toURL() string {
 	sb := strings.Builder{}
 
 	_, _ = sb.WriteString(sp.fmtOfferType())
@@ -139,11 +158,11 @@ func (sp *SearchParam) ToURL() string {
 	_, _ = sb.WriteString(sp.fmtProvider())
 	_, _ = sb.WriteString(sp.fmtPage())
 	_, _ = sb.WriteString(sp.fmtCategory())
-	_, _ = sb.WriteString(sp.fmtCountyID())
+	_, _ = sb.WriteString(sp.fmtLocationID())
 	_, _ = sb.WriteString(sp.fmtRadius())
 	_, _ = sb.WriteString(sp.fmtSpecificParameter())
 
 	params := strings.Trim(sb.String(), "/")
 
-	return BaseURL + "/" + params
+	return baseURL + "/" + params
 }
