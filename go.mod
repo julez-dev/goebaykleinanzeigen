@@ -7,4 +7,5 @@ require (
 	github.com/andybalholm/cascadia v1.2.0 // indirect
 	golang.org/x/net v0.0.0-20210316092652-d523dce5a7f4 // indirect
 	golang.org/x/time v0.0.0-20210220033141-f8bda1e9f3ba
+	honnef.co/go/tools v0.1.3 // indirect
 )
