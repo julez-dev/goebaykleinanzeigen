@@ -3,7 +3,7 @@ package goebay
 import (
 	"bytes"
 	"encoding/json"
-	"os"
+	"io/ioutil"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -236,13 +236,15 @@ func Test_parseAdHTML(t *testing.T) {
 		jsonFilePath := "testdata/aditem/" + strings.Replace(htmlFilename, ".html", ".json", 1)
 
 		t.Run(htmlFilename, func(t *testing.T) {
-			html, err := os.ReadFile(htmlFilePath)
+			// html, err := os.ReadFile(htmlFilePath)
+			html, err := ioutil.ReadFile(htmlFilePath)
 
 			if err != nil {
 				t.Fatal(err)
 			}
 
-			jsonRaw, err := os.ReadFile(jsonFilePath)
+			// jsonRaw, err := os.ReadFile(jsonFilePath)
+			jsonRaw, err := ioutil.ReadFile(jsonFilePath)
 
 			if err != nil {
 				t.Fatal(err)
