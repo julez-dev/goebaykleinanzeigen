@@ -1,6 +1,12 @@
 package goebay
 
 import (
+	"bytes"
+	"encoding/json"
+	"os"
+	"path/filepath"
+	"reflect"
+	"strings"
 	"testing"
 	"time"
 )
@@ -213,6 +219,46 @@ func Test_parseActiveSince(t *testing.T) {
 
 			if activeSince != tt.activeSince {
 				t.Errorf("parseActiveSince() activeSince = %v, want %v", activeSince, tt.activeSince)
+			}
+		})
+	}
+}
+
+func Test_parseAdHTML(t *testing.T) {
+	files, err := filepath.Glob("testdata/aditem/*.html")
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, htmlFilePath := range files {
+		htmlFilename := filepath.Base(htmlFilePath)
+		jsonFilePath := "testdata/aditem/" + strings.Replace(htmlFilename, ".html", ".json", 1)
+
+		t.Run(htmlFilename, func(t *testing.T) {
+			html, err := os.ReadFile(htmlFilePath)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			jsonRaw, err := os.ReadFile(jsonFilePath)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			adItem := &AdItem{}
+			_ = json.Unmarshal(jsonRaw, adItem)
+
+			returnedItem, err := parseAdHTML(bytes.NewReader(html))
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if !reflect.DeepEqual(returnedItem, adItem) {
+				t.Errorf("parseAdHTML() got = %v, want %v", returnedItem, adItem)
 			}
 		})
 	}

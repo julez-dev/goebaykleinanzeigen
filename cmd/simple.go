@@ -14,10 +14,10 @@ import (
 func main() {
 	params := &goebay.SearchParam{
 		Category:  goebay.Cars,
-		Location:  "3331",
+		Location:  "2750",
 		Radius:    goebay.FiftyKM,
 		PriceFrom: 1000,
-		PriceTo:   4000,
+		PriceTo:   6000,
 		SpecificParameter: map[goebay.ParamName]string{
 			goebay.CarManufacturer: "bmw",
 		},
