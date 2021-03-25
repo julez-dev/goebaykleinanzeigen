@@ -1,4 +1,4 @@
-module github.com/julez-dev/goebay
+module github.com/julez-dev/goebaykleinanzeigen
 
 go 1.16
 
