@@ -283,14 +283,14 @@ func Test_toURL(t *testing.T) {
 		{
 			name: "empty-params",
 			sp:   &SearchParam{},
-			want: baseURL + "/",
+			want: baseURL + "/seite:1",
 		},
 		{
 			name: "param-car",
 			sp: &SearchParam{
 				Category: Cars,
 			},
-			want: baseURL + "/c" + string(Cars),
+			want: baseURL + "/seite:1/c" + string(Cars),
 		},
 		{
 			name: "param-page",
@@ -305,7 +305,7 @@ func Test_toURL(t *testing.T) {
 				PriceFrom: 1000,
 				PriceTo:   5000,
 			},
-			want: baseURL + "/preis:1000:5000",
+			want: baseURL + "/preis:1000:5000/seite:1",
 		},
 		{
 			name: "param-basic",
@@ -318,7 +318,7 @@ func Test_toURL(t *testing.T) {
 					CarManufacturer: "bmw",
 				},
 			},
-			want: baseURL + "/anzeige:angebote/c216l3331r10+autos.marke_s:bmw",
+			want: baseURL + "/anzeige:angebote/seite:1/c216l3331r10+autos.marke_s:bmw",
 		},
 	}
 

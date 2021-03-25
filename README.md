@@ -14,7 +14,7 @@ goebaykleinanzeigen is an experimental library for scraping [eBay Kleinanzeigens
 
 eBay Kleinanzeigen should not be confused with the main site eBay.
 
-There is a runnable basic example for scraping car ads in the cmd directory.
+There is a runnable basic example for scraping car ads in the cmd/simple directory.
 
 This library is written with the intend to scrape car listings but all categories should work and will be added in the future.
 

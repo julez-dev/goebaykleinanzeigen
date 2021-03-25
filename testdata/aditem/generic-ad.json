@@ -1,30 +1,72 @@
 {
-	"ID": "1707662827",
-	"ListedSince": "2021-03-21T00:00:00Z",
-	"Title": "BMW 118i Xenon, Navi, Alufelgen",
-	"Price": 3550,
-	"PriceNegotiable": true,
-	"Location": "Niedersachsen - Wiefelstede",
-	"ZipCode": "26215",
-	"Link": "https://www.ebay-kleinanzeigen.de/s-anzeige/1707662827",
-	"Description": "Hallo,Verkauft wird hier mein BMW 118i.Vorweg , der Wagen hat einen Seitenschaden (siehe Bilder). Ersatztüren wären dabei, allerdings müssen sie umlackiert werden.Der BMW hat bei ca 108000km einen Austausch Motor bei einem BMW Vertragshändler bekommen.(siehe Bilder)Neben den Schäden, befindet sich der Wagen in einem gut gebrauchten Zustand.Seine Ausstattungsmerkmale sind: Xenon Scheinwerfer, Navi, Tempomat, Multifunktionslenkrad, uvm.Bei weiteren Fragen stehe ich Ihnen gerne zur Verfügung.",
-	"Details": {
-		"Anzahl Türen": "4/5",
-		"Außenfarbe": "Braun",
-		"Erstzulassung": "April 2008",
-		"Fahrzeugtyp": "Limousine",
-		"Fahrzeugzustand": "Beschädigtes Fahrzeug",
-		"Getriebe": "Manuell",
-		"HU bis": "August 2021",
-		"Kilometerstand": "189.000 km",
-		"Kraftstoffart": "Benzin",
-		"Leistung": "143 PS",
-		"Marke": "BMW",
-		"Material Innenausstattung": "Stoff",
-		"Modell": "3er",
-		"Umweltplakette": "4 (Grün)"
-	},
-	"Extras": [
+	"id": "1707662827",
+	"listed_since": "2021-03-21T00:00:00Z",
+	"title": "BMW 118i Xenon, Navi, Alufelgen",
+	"price": 3550,
+	"price_negotiable": true,
+	"location": "Niedersachsen - Wiefelstede",
+	"zip_code": "26215",
+	"link": "https://www.ebay-kleinanzeigen.de/s-anzeige/1707662827",
+	"description": "Hallo,Verkauft wird hier mein BMW 118i.Vorweg , der Wagen hat einen Seitenschaden (siehe Bilder). Ersatztüren wären dabei, allerdings müssen sie umlackiert werden.Der BMW hat bei ca 108000km einen Austausch Motor bei einem BMW Vertragshändler bekommen.(siehe Bilder)Neben den Schäden, befindet sich der Wagen in einem gut gebrauchten Zustand.Seine Ausstattungsmerkmale sind: Xenon Scheinwerfer, Navi, Tempomat, Multifunktionslenkrad, uvm.Bei weiteren Fragen stehe ich Ihnen gerne zur Verfügung.",
+	"details": [
+		{
+			"name": "Marke",
+			"value": "BMW"
+		},
+		{
+			"name": "Modell",
+			"value": "3er"
+		},
+		{
+			"name": "Kilometerstand",
+			"value": "189.000 km"
+		},
+		{
+			"name": "Erstzulassung",
+			"value": "April 2008"
+		},
+		{
+			"name": "Kraftstoffart",
+			"value": "Benzin"
+		},
+		{
+			"name": "Leistung",
+			"value": "143 PS"
+		},
+		{
+			"name": "Getriebe",
+			"value": "Manuell"
+		},
+		{
+			"name": "Fahrzeugtyp",
+			"value": "Limousine"
+		},
+		{
+			"name": "Anzahl Türen",
+			"value": "4/5"
+		},
+		{
+			"name": "HU bis",
+			"value": "August 2021"
+		},
+		{
+			"name": "Umweltplakette",
+			"value": "4 (Grün)"
+		},
+		{
+			"name": "Außenfarbe",
+			"value": "Braun"
+		},
+		{
+			"name": "Material Innenausstattung",
+			"value": "Stoff"
+		},
+		{
+			"name": "Fahrzeugzustand",
+			"value": "Beschädigtes Fahrzeug"
+		}
+	],
+	"extras": [
 		"Einparkhilfe",
 		"Leichtmetallfelgen",
 		"Xenon-/LED-Scheinwerfer",
@@ -36,10 +78,10 @@
 		"Nichtraucher-Fahrzeug",
 		"Antiblockiersystem (ABS)"
 	],
-	"Seller": {
-		"Name": "Kück",
-		"ActiveSince": "2011-08-21T00:00:00Z",
-		"Friendliness": "Freundlich",
-		"Rating": "OK"
+	"seller": {
+		"name": "Kück",
+		"active_since": "2011-08-21T00:00:00Z",
+		"friendliness": "Freundlich",
+		"rating": "OK"
 	}
 }

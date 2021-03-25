@@ -153,6 +153,10 @@ func (sp *SearchParam) fmtSpecificParameter() string {
 func (sp *SearchParam) toURL() string {
 	sb := strings.Builder{}
 
+	if sp.Page < 1 {
+		sp.Page = 1
+	}
+
 	_, _ = sb.WriteString(sp.fmtOfferType())
 	_, _ = sb.WriteString(sp.fmtPrice())
 	_, _ = sb.WriteString(sp.fmtProvider())

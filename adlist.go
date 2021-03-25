@@ -14,18 +14,19 @@ type AdListRepo struct {
 
 // AdListResponse represents the response from the Fetch() call
 type AdListResponse struct {
-	Items []*AdListItem
+	Items      []*AdListItem
+	IsLastPage bool
 }
 
 // AdListItem a single item in the returned list
 type AdListItem struct {
-	ID              string
-	Title           string
-	Price           int
-	PriceNegotiable bool
-	Location        string
-	ZipCode         string
-	Link            string
+	ID              string `json:"id"`
+	Title           string `json:"title"`
+	Price           int    `json:"price"`
+	PriceNegotiable bool   `json:"price_negotiable"`
+	Location        string `json:"location"`
+	ZipCode         string `json:"zip_code"`
+	Link            string `json:"link"`
 }
 
 // NewAdListRepo creates a new AdRepo, if client is nil, one will be created
@@ -44,6 +45,7 @@ func NewAdListRepo(client *http.Client) *AdListRepo {
 // Fetch fetches a list of ads based on the provided param
 func (al *AdListRepo) Fetch(ctx context.Context, param *SearchParam) (*AdListResponse, error) {
 	url := param.toURL()
+
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 
 	if err != nil {

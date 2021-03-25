@@ -48,6 +48,26 @@ func parseListHTML(body io.Reader) (*AdListResponse, error) {
 		response.Items = append(response.Items, listItem)
 	})
 
+	currentPageStr := doc.Find(".pagination-current").First().Text()
+	currentPage, err := strconv.ParseInt(currentPageStr, 10, 32)
+	if err != nil {
+		return nil, err
+	}
+
+	lastPageStr := doc.Find(".pagination-page").Last().Text()
+	// If the site has only one pagination field, set the max to the current page
+	lastPage := currentPage
+
+	if lastPageStr != "" {
+		lastPage, err = strconv.ParseInt(lastPageStr, 10, 32)
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	response.IsLastPage = currentPage >= lastPage
+
 	return response, nil
 }
 
@@ -86,11 +106,15 @@ func parseAdHTML(body io.Reader) (*AdItem, error) {
 	ad.Link = baseURL + "/s-anzeige/" + id
 
 	detailsSelector := doc.Find(".addetailslist--detail")
-	ad.Details = make(map[string]string, len(detailsSelector.Nodes))
+	ad.Details = make([]*Detail, 0, len(detailsSelector.Nodes))
 
 	detailsSelector.Each(func(_ int, s *goquery.Selection) {
 		key, val := parseDetail(strings.TrimSpace(s.Text()))
-		ad.Details[key] = val
+
+		ad.Details = append(ad.Details, &Detail{
+			Name:  key,
+			Value: val,
+		})
 	})
 
 	extrasSelector := doc.Find(".checktag")
@@ -100,12 +124,13 @@ func parseAdHTML(body io.Reader) (*AdItem, error) {
 		ad.Extras = append(ad.Extras, s.Text())
 	})
 
-	// TODO: make this a little more performant and safe by selecting an outer class first and then use the new selector
-	seller.Name = strings.TrimSpace(doc.Find(".text-bold.text-bigger.text-force-linebreak").First().Text())
-	seller.Rating = parseRating(strings.TrimSpace(doc.Find(".userbadges-vip.userbadges-profile-rating").First().Text()))
-	seller.Friendliness = strings.TrimSpace(doc.Find(".userbadges-vip.userbadges-profile-friendliness").First().Text())
+	contactSelector := doc.Find("#viewad-contact")
 
-	time, err := parseActiveSince(strings.TrimSpace(doc.Find(".text-light.text-light-seller-info").First().Text()))
+	seller.Name = strings.TrimSpace(contactSelector.Find(".text-bold.text-bigger.text-force-linebreak").First().Text())
+	seller.Rating = parseRating(strings.TrimSpace(contactSelector.Find(".userbadges-vip.userbadges-profile-rating").First().Text()))
+	seller.Friendliness = strings.TrimSpace(contactSelector.Find(".userbadges-vip.userbadges-profile-friendliness").First().Text())
+
+	time, err := parseActiveSince(strings.TrimSpace(contactSelector.Find(".text-light.text-light-seller-info").First().Text()))
 
 	// We don't really care if this returns an error
 	// just don't set the field in this case

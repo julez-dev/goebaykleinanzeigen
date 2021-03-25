@@ -15,7 +15,7 @@ func main() {
 	params := &goebay.SearchParam{
 		Category:  goebay.Cars,
 		Location:  "2750",
-		Radius:    goebay.FiftyKM,
+		Radius:    goebay.TenKM,
 		PriceFrom: 1000,
 		PriceTo:   6000,
 		SpecificParameter: map[goebay.ParamName]string{
@@ -28,24 +28,32 @@ func main() {
 	al := goebay.NewAdListRepo(nil)
 	ar := goebay.NewAdRepo(nil)
 
-	resp, err := al.Fetch(context.Background(), params)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	for _, item := range resp.Items {
-		if err := rl.Wait(context.Background()); err != nil {
-			log.Fatalln(err)
-		}
-
-		car, err := ar.Fetch(context.Background(), item.Link)
+	for {
+		adList, err := al.Fetch(context.TODO(), params)
 
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		carDbg, _ := json.MarshalIndent(car, "", "	")
-		fmt.Println(string(carDbg))
+		for _, ad := range adList.Items {
+			if err := rl.Wait(context.TODO()); err != nil {
+				log.Fatalln(err)
+			}
+
+			adItem, err := ar.Fetch(context.TODO(), ad.Link)
+
+			if err != nil {
+				log.Fatalln(err)
+			}
+
+			adItemDbg, _ := json.MarshalIndent(adItem, "", "	")
+			fmt.Println(string(adItemDbg))
+		}
+
+		if adList.IsLastPage {
+			break
+		}
+
+		params.Page++
 	}
 }

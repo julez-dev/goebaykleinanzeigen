@@ -255,6 +255,9 @@ func Test_parseAdHTML(t *testing.T) {
 
 			returnedItem, err := parseAdHTML(bytes.NewReader(html))
 
+			returnedItemDbg, _ := json.MarshalIndent(returnedItem, "", "	")
+			t.Log(string(returnedItemDbg))
+
 			if err != nil {
 				t.Fatal(err)
 			}

@@ -15,26 +15,31 @@ type AdRepo struct {
 
 // AdItem represents a single AdItem
 type AdItem struct {
-	ID              string
-	ListedSince     time.Time
-	Title           string
-	Price           int
-	PriceNegotiable bool
-	Location        string
-	ZipCode         string
-	Link            string
-	Description     string
-	Details         map[string]string
-	Extras          []string
-	Seller          *Seller
+	ID              string    `json:"id"`
+	ListedSince     time.Time `json:"listed_since"`
+	Title           string    `json:"title"`
+	Price           int       `json:"price"`
+	PriceNegotiable bool      `json:"price_negotiable"`
+	Location        string    `json:"location"`
+	ZipCode         string    `json:"zip_code"`
+	Link            string    `json:"link"`
+	Description     string    `json:"description"`
+	Details         []*Detail `json:"details"`
+	Extras          []string  `json:"extras"`
+	Seller          *Seller   `json:"seller"`
 }
 
 // Seller represents the seller of an aditem
 type Seller struct {
-	Name         string
-	ActiveSince  time.Time
-	Friendliness string
-	Rating       string
+	Name         string    `json:"name"`
+	ActiveSince  time.Time `json:"active_since"`
+	Friendliness string    `json:"friendliness"`
+	Rating       string    `json:"rating"`
+}
+
+type Detail struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // NewAdRepo creates a new AdRepo, if client is nil, one will be created
