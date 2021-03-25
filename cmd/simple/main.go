@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/julez-dev/goebay"
+	goebay "github.com/julez-dev/goebaykleinanzeigen"
 	"golang.org/x/time/rate"
 )
 

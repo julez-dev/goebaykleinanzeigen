@@ -1,4 +1,4 @@
-package goebay
+package goebaykleinanzeigen
 
 // ParamName represents a parameter name for a category specific parameter
 type ParamName string

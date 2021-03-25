@@ -55,14 +55,14 @@ But we don't want a Volkswagen, we only want to search for BMWs. Luckily we can 
 You don't really need to worry about this since the `SearchParam´ struct abstracts the query building away. The SearchParam for this example may look like this:
 
 ```go
-param := &goebay.SearchParam{
-		Category:  goebay.Cars,
+param := &goebaykleinanzeigen.SearchParam{
+		Category:  goebaykleinanzeigen.Cars,
 		Location: "3331",
-		Radius:    goebay.FiftyKM,
+		Radius:    goebaykleinanzeigen.FiftyKM,
 		PriceFrom: 1000,
 		PriceTo:   4000,
-		SpecificParameter: map[goebay.ParamName]string{
-			goebay.CarManufacturer: "bmw",
+		SpecificParameter: map[goebaykleinanzeigen.ParamName]string{
+			goebaykleinanzeigen.CarManufacturer: "bmw",
 		},
 	}
 ```

@@ -1,4 +1,4 @@
-package goebay
+package goebaykleinanzeigen
 
 import (
 	"testing"
