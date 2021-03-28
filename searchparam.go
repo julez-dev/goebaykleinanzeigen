@@ -31,7 +31,21 @@ const (
 )
 
 const (
-	Cars Category = "216"
+	Family         Category = "17"
+	Music          Category = "73"
+	HouseAndGarden Category = "80"
+	Jobs           Category = "102"
+	Pets           Category = "130"
+	Fashion        Category = "153"
+	Electronics    Category = "161"
+	Hobby          Category = "185"
+	Property       Category = "195"
+	Boats          Category = "211"
+	Cars           Category = "216"
+	CarParts       Category = "223"
+	Tickets        Category = "231"
+	Education      Category = "235"
+	Services       Category = "297"
 )
 
 const (
