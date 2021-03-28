@@ -40,6 +40,7 @@ func main() {
 				log.Fatalln(err)
 			}
 
+			// TODO ad timeouts and retries
 			adItem, err := ar.Fetch(context.TODO(), ad.Link)
 
 			if err != nil {

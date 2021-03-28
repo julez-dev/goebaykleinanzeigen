@@ -24,7 +24,6 @@ func main() {
 	}
 
 	rl := rate.NewLimiter(rate.Every(60*time.Second/40), 1) // 40 reads per 60 seconds
-
 	al := goebay.NewAdListRepo(nil)
 	ar := goebay.NewAdRepo(nil)
 
@@ -39,6 +38,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
+		// TODO ad timeouts and retries
 		car, err := ar.Fetch(context.TODO(), item.Link)
 
 		if err != nil {

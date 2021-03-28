@@ -1,6 +1,9 @@
 package goebaykleinanzeigen
 
 import (
+	"bytes"
+	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -326,6 +329,91 @@ func Test_toURL(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.sp.toURL(); got != tt.want {
 				t.Errorf("SearchParam.toURL() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_ParamsFromJSON(t *testing.T) {
+
+	tests := []struct {
+		name string
+		want *SearchParam
+		json *strings.Reader
+	}{
+		{
+			name: "empty-params",
+			want: &SearchParam{},
+			json: strings.NewReader(""),
+		},
+		{
+			name: "with-data",
+			want: &SearchParam{
+				Category:  Cars,
+				Location:  "2750",
+				Radius:    FiftyKM,
+				PriceFrom: 1000,
+				PriceTo:   6000,
+				SpecificParameter: map[ParamName]string{
+					CarManufacturer: "bmw",
+				},
+			},
+			json: strings.NewReader(`{"category":"216","provider":"","offer_type":"","location":"2750","radius":"50","specific_parameter":{"autos.marke_s":"bmw"},"page":0,"price_from":1000,"price_to":6000}`),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ParamsFromJSON(tt.json)
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ParamsFromJSON() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_ToJSON(t *testing.T) {
+
+	tests := []struct {
+		name  string
+		param *SearchParam
+	}{
+		{
+			name:  "empty-params",
+			param: &SearchParam{},
+		},
+		{
+			name: "with-category",
+			param: &SearchParam{
+				Category: Cars,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			bufToJSON := &bytes.Buffer{}
+			err := tt.param.ToJSON(bufToJSON)
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			bytesToJSON := bufToJSON.Bytes()
+
+			param, err := ParamsFromJSON(bytes.NewReader(bytesToJSON))
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			if !reflect.DeepEqual(param, tt.param) {
+				t.Errorf("ToJSON() got = %v, want %v", param, tt.param)
 			}
 		})
 	}

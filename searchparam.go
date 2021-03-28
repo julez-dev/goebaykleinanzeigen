@@ -1,6 +1,8 @@
 package goebaykleinanzeigen
 
 import (
+	"encoding/json"
+	"io"
 	"strconv"
 	"strings"
 )
@@ -56,18 +58,41 @@ const (
 
 // SearchParam holds all parameters for a search
 type SearchParam struct {
-	Category          Category
-	Provider          Provider
-	OfferType         OfferType
-	Location          LocationID
-	Radius            Radius
-	SpecificParameter SpecificParameter
+	Category          Category          `json:"category"`
+	Provider          Provider          `json:"provider"`
+	OfferType         OfferType         `json:"offer_type"`
+	Location          LocationID        `json:"location"`
+	Radius            Radius            `json:"radius"`
+	SpecificParameter SpecificParameter `json:"specific_parameter"`
 	// Which page should be scraped
-	Page int
+	Page int `json:"page"`
 	// Price from in euro
-	PriceFrom int
+	PriceFrom int `json:"price_from"`
 	// Price to in euro
-	PriceTo int
+	PriceTo int `json:"price_to"`
+}
+
+// ParamsFromJSON creates a SearchParam struct from JSON
+func ParamsFromJSON(data io.Reader) (*SearchParam, error) {
+	params := &SearchParam{}
+
+	err := json.NewDecoder(data).Decode(params)
+
+	if err != nil && err != io.EOF {
+		return nil, err
+	}
+
+	return params, nil
+}
+
+func (sp *SearchParam) ToJSON(out io.Writer) error {
+	err := json.NewEncoder(out).Encode(sp)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (sp *SearchParam) fmtCategory() string {

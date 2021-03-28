@@ -265,3 +265,48 @@ func Test_parseAdHTML(t *testing.T) {
 		})
 	}
 }
+
+func Test_parseListHTML(t *testing.T) {
+	files, err := filepath.Glob("testdata/adlist/*.html")
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, htmlFilePath := range files {
+		htmlFilename := filepath.Base(htmlFilePath)
+		jsonFilePath := "testdata/adlist/" + strings.Replace(htmlFilename, ".html", ".json", 1)
+
+		t.Run(htmlFilename, func(t *testing.T) {
+			// html, err := os.ReadFile(htmlFilePath)
+			html, err := ioutil.ReadFile(htmlFilePath)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			// jsonRaw, err := os.ReadFile(jsonFilePath)
+			jsonRaw, err := ioutil.ReadFile(jsonFilePath)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			list := &AdListResponse{}
+			_ = json.Unmarshal(jsonRaw, list)
+
+			returnedList, err := parseListHTML(bytes.NewReader(html))
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if !reflect.DeepEqual(returnedList, list) {
+				returnedListDbg, _ := json.MarshalIndent(returnedList, "", "	")
+				t.Log(string(returnedListDbg))
+
+				t.Errorf("parseAdHTML() got = %v, want %v", returnedList, list)
+			}
+		})
+	}
+}
